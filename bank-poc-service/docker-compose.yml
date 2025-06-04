@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mobile-banking-api:
+    build: './app/'
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - banking-network
+    restart: unless-stopped
+
+  banking-mcp-server:
+    build: ./mcp/
+    container_name: banking-mcp-server
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - BANKING_HOST=http://mobile-banking-api:3000  # Use service name instead of localhost
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - banking-network
+    depends_on:
+      - mobile-banking-api  # Ensure banking API starts first
+    labels:
+      - "com.example.service=banking-mcp-server"
+      - "com.example.version=1.0.0"
+
+networks:
+  banking-network:
+    driver: bridge
