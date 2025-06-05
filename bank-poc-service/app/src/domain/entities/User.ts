@@ -18,3 +18,8 @@ export interface User {
     last_name?: string;
     date_of_birth?: string; // ISO date string
   }
+
+  export interface GetUsersByNameRequest {
+    first_name?: string;
+    last_name?: string;
+  }

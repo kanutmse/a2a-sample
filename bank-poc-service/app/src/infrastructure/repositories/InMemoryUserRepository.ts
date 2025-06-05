@@ -3,24 +3,24 @@ import { UserRepository } from '../../domain/repositories/UserRepository';
 import { v4 as uuidv4 } from 'uuid';
 
 
-  const mocksUser : User[] = [
-    {
-      user_id: "001",
-      first_name: "นายเอ",
-      last_name: "สกุล บี",
-      date_of_birth: new Date(),
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      user_id: "002",
-      first_name: "นายโจ้",
-      last_name: "ซ่า",
-      date_of_birth: new Date(),
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-  ]
+const mocksUser: User[] = [
+  {
+    user_id: "001",
+    first_name: "นายเอ",
+    last_name: "สกุล บี",
+    date_of_birth: new Date(),
+    created_at: new Date(),
+    updated_at: new Date()
+  },
+  {
+    user_id: "002",
+    first_name: "นายโจ้",
+    last_name: "ซ่า",
+    date_of_birth: new Date(),
+    created_at: new Date(),
+    updated_at: new Date()
+  },
+]
 
 export class InMemoryUserRepository implements UserRepository {
   private users: Map<string, User> = new Map();
@@ -32,7 +32,43 @@ export class InMemoryUserRepository implements UserRepository {
   }
 
 
-  
+
+
+  async findByFirstNameOrLastName(firstName: string, lastName: string): Promise<User[]> {
+
+    let result: User[] = []
+
+    const firstNameRegex = firstName ?
+    new RegExp(`.*${firstName}.*`) : null
+    const lastNameRegex = lastName ?
+    new RegExp(`.*${lastName}.*`) : null
+    
+
+
+
+    this.users.forEach(user => {
+
+      let matches = false
+
+      if (firstNameRegex && user.first_name && firstNameRegex.test(user.first_name)) {
+        matches = true
+      }
+
+      if (lastNameRegex && user.last_name && lastNameRegex.test(user.last_name)) {
+        matches = true
+      }
+
+      if (matches) {
+        result.push(user)
+      }
+    })
+
+    return result
+
+  }
+
+
+
 
   async create(userData: CreateUserRequest): Promise<User> {
     const user: User = {

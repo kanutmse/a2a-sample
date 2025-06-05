@@ -9,17 +9,19 @@ export const bankTransferTool : Tool  = {
     inputSchema: {
         type : "object",
         properties : {
-          source_account_id: {
-            type : "string",
-            description : "original or your own banking account number",
-          },
+          // source_account_id: {
+          //   type : "string",
+          //   description : "original or your own banking account number",
+          // }, // we mock this value to 001 (your own account)
           to_account_id: {
             type : "string",
             description : "destination banking account number",
+            required : true,
           },
           amount: {
             type : "number",
             description : "amount transfer",
+            required : true,
             default : 0
           }
 

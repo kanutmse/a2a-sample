@@ -12,11 +12,12 @@ export function createRoutes(
 
   // User routes
   router.post('/users', (req, res) => userController.createUser(req, res));
+  router.get('/users/search',(req,res)=> userController.getUsersByName(req,res))
   router.get('/users/:id', (req, res) => userController.getUser(req, res));
   router.get('/users', (req, res) => userController.getAllUsers(req, res));
   router.put('/users/:id', (req, res) => userController.updateUser(req, res));
   router.delete('/users/:id', (req, res) => userController.deleteUser(req, res));
-
+''
   // Bank Account routes
   router.post('/accounts', (req, res) => bankAccountController.createAccount(req, res));
   router.get('/accounts/:id', (req, res) => bankAccountController.getAccount(req, res));

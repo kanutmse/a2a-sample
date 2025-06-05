@@ -19,7 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
       account_type: AccountType.CHECKING,
       balance: 200,
       bank_name: "Bank B",
-      prompt_pay_number: "0812345678",
+      prompt_pay_number: "0212345678",
       user_id: "002",
       created_at: new Date(),
       updated_at: new Date()
@@ -57,7 +57,9 @@ export class InMemoryBankAccountRepository implements BankAccountRepository {
   }
 
   async findByUserId(userId: string): Promise<BankAccount[]> {
-    return Array.from(this.accounts.values()).filter(account => account.user_id === userId);
+    return Array.from(this.accounts.values()).filter(account => {
+      return account.user_id === userId}
+    );
   }
 
   async findAll(): Promise<BankAccount[]> {

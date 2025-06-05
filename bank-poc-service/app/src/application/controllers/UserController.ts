@@ -36,6 +36,16 @@ export class UserController {
     }
   }
 
+  async getUsersByName(req: Request, res: Response): Promise<void> {
+    const { firstName , lastName } = req.query
+    try {
+      const users = await this.userService.findByName({first_name : firstName?.toString(),last_name : lastName?.toString()});
+      res.json(users);
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
+    }
+  }
+
   async updateUser(req: Request, res: Response): Promise<void> {
     try {
       const user = await this.userService.update(req.params.id, req.body);

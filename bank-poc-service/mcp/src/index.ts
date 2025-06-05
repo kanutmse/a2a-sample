@@ -9,12 +9,13 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { bankTransferTool } from './tools/transfer'
 import { toolTypes } from "./tools/type";
-import { checkBalanceArg, executeTransferArgs } from "./client/type";
+import { checkBalanceArg, executeTransferArgs, getAccountInfoByUserId, getUserByNameArgs } from "./client/type";
 import express from "express";
 import { randomUUID } from "node:crypto";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js"
-import { checkBalanceTool } from "./tools/balance";
+import { checkBalanceTool } from "./tools/bank";
+import { tools } from "./tools";
 
 const HOST: string = process.env.BANKING_HOST || 'http://localhost:3000'
 const PROTOCOLS = ["stdio", "streamable-http"] as const;
@@ -124,14 +125,13 @@ async function createServer(bankingHost: string): Promise<Server> {
             const args = request.params
               .arguments as unknown as executeTransferArgs;
 
-            if (!args.source_account_id || !args.to_account_id) {
+            if (!args.amount || !args.to_account_id) {
               throw new Error(
-                "Missing required arguments: source_account_id and to_account_id",
+                "Missing required arguments: amount and to_account_id",
               );
             }
 
             const response = await bankClient.executeTransfer(
-              args.source_account_id,
               args.to_account_id,
               args.amount
             );
@@ -140,23 +140,44 @@ async function createServer(bankingHost: string): Promise<Server> {
             };
           }
           case toolTypes.CHECK_BALANCE: {
-            console.error("Executing check balance");
+            // console.error("Executing check balance");
 
-            console.error("Executing bank transfer");
-            const args = request.params
-              .arguments as unknown as checkBalanceArg;
+            // console.error("Executing bank transfer");
+            // const args = request.params
+            //   .arguments as unknown as checkBalanceArg;
 
-            if (!args.account_id) {
-              throw new Error(
-                "Missing required arguments: account_ids",
-              );
-            }
+            // if (!args.account_id) {
+            //   throw new Error(
+            //     "Missing required arguments: account_ids",
+            //   );
+            // }
             const response = await bankClient.checkBalance(
-              args.account_id
             );
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
+          }
+          case toolTypes.GET_USER_BY_NAME:{
+
+            const args = request.params
+              .arguments as unknown as getUserByNameArgs;
+            const response = await bankClient.getUsersByName(args.first_name,args.last_name)
+
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+          case toolTypes.GET_BANK_BY_USER_ID : {
+
+            const args = request.params
+          .arguments as unknown as getAccountInfoByUserId;
+
+          const response = await bankClient.getAccountInfoByUserId(args.user_id)
+
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+
           }
           default:
             console.error(`Unknown tool: ${request.params.name}`);
@@ -182,8 +203,7 @@ async function createServer(bankingHost: string): Promise<Server> {
     console.error("Received ListToolsRequest");
     return {
       tools: [
-        bankTransferTool,
-        checkBalanceTool
+          ...tools
       ],
     };
   });

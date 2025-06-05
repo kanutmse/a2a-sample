@@ -1,4 +1,4 @@
-import { User, CreateUserRequest, UpdateUserRequest } from '../entities/User';
+import { User, CreateUserRequest, UpdateUserRequest, GetUsersByNameRequest } from '../entities/User';
 import { UserRepository } from '../repositories/UserRepository';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,6 +15,11 @@ export class UserService  {
 
   async findById(userId: string): Promise<User | null> {
     return this.userRepository.findById(userId);
+  }
+
+
+  async findByName(name : GetUsersByNameRequest) : Promise<User[]> {
+    return this.userRepository.findByFirstNameOrLastName(name.first_name,name.last_name)
   }
 
   async findAll(): Promise<User[]> {

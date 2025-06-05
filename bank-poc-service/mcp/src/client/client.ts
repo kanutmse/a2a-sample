@@ -30,7 +30,7 @@ export class BankingClient {
 
 
 
-    async executeTransfer(source_account_id: string, to_account_id: string, amount : number): Promise<any> {
+    async executeTransfer(to_account_id: string, amount : number): Promise<any> {
       console.log(this.host)
       const response = await fetch(`${this.host}/api/transfers`, {
         method: "POST",
@@ -39,7 +39,7 @@ export class BankingClient {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          source_account_id: source_account_id,
+          source_account_id: "001",// we mock this value to 001 (your own account)
           to_account_id: to_account_id,
           amount: amount
         }),
@@ -48,9 +48,9 @@ export class BankingClient {
         return response.json();
       }
 
-      async checkBalance(account_id: string): Promise<any> {
+      async checkBalance(): Promise<any> {
         console.log(this.host)
-        const response = await fetch(`${this.host}/api/accounts/${account_id}/balances`, {
+        const response = await fetch(`${this.host}/api/accounts/001/balances`, {
           method: "GET",
           headers: {
             "user-id": "001", // this is fixed value for poc purpose in real scinario please use authentication
@@ -60,5 +60,35 @@ export class BankingClient {
       
           return response.json();
         }
+
+        async getUsersByName(first_name?: string, last_name? : string): Promise<any> {
+          
+          const params = new URLSearchParams();
+
+
+  
+          if (first_name) params.append('firstName', first_name);
+          if (last_name) params.append('lastName', last_name);
+
+          console.log(`${this.host}/api/users/search?${params.toString()}`)
+          const response = await fetch(`${this.host}/api/users/search?${params.toString()}`, {
+            method: "GET",
+            headers: {
+              "user-id": "001", // this is fixed value for poc purpose in real scinario please use authentication
+              "Content-Type": "application/json"
+            },
+          });
+        
+            return response.json();
+          }
+
+          async getAccountInfoByUserId(user_id: string): Promise<any> {
+            console.log(`${this.host}/api/users/${user_id}/accounts`)
+            const response = await fetch(`${this.host}/api/users/${user_id}/accounts`, {
+              method: "GET",
+            });
+          
+              return response.json();
+            }
 
 }
