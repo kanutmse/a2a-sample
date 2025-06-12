@@ -125,15 +125,22 @@ async function createServer(bankingHost: string): Promise<Server> {
             const args = request.params
               .arguments as unknown as executeTransferArgs;
 
-            if (!args.amount || !args.to_account_id) {
+            if (!args.amount) {
               throw new Error(
-                "Missing required arguments: amount and to_account_id",
+                "Missing required arguments: amount",
+              );
+            }
+
+            if (!args.prompt_pay_number && !args.to_account_id){
+              throw new Error(
+                "Missing required arguments: prompt_pay_number or to_account_id",
               );
             }
 
             const response = await bankClient.executeTransfer(
+              args.amount,
               args.to_account_id,
-              args.amount
+              args.prompt_pay_number
             );
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],

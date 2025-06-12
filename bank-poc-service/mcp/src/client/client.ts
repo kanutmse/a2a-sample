@@ -30,7 +30,7 @@ export class BankingClient {
 
 
 
-    async executeTransfer(to_account_id: string, amount : number): Promise<any> {
+    async executeTransfer( amount : number,to_account_id?: string,prompt_pay_number? : string,): Promise<any> {
       console.log(this.host)
       const response = await fetch(`${this.host}/api/transfers`, {
         method: "POST",
@@ -40,7 +40,8 @@ export class BankingClient {
         },
         body: JSON.stringify({
           source_account_id: "001",// we mock this value to 001 (your own account)
-          to_account_id: to_account_id,
+          to_account_id,
+          prompt_pay_number,
           amount: amount
         }),
       });

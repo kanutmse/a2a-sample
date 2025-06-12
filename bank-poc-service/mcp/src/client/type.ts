@@ -1,6 +1,7 @@
 export interface executeTransferArgs {
     source_account_id: string
     to_account_id: string
+    prompt_pay_number : string
     amount : number
   }
 

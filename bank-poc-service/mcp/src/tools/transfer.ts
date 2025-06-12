@@ -16,7 +16,12 @@ export const bankTransferTool : Tool  = {
           to_account_id: {
             type : "string",
             description : "destination banking account number",
-            required : true,
+            required : false,
+          },
+          prompt_pay_number: {
+            type : "string",
+            description : "another type of destination account number named promptpay",
+            required : false,
           },
           amount: {
             type : "number",
