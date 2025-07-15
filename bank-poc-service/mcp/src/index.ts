@@ -9,7 +9,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { bankTransferTool } from './tools/transfer'
 import { toolTypes } from "./tools/type";
-import { checkBalanceArg, executeTransferArgs, getAccountInfoByUserId, getUserByNameArgs } from "./client/type";
+import { checkBalanceArg, convertCurrencyArgs, executeTransferArgs, getAccountInfoByUserId, getUserByNameArgs } from "./client/type";
 import express from "express";
 import { randomUUID } from "node:crypto";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
@@ -150,15 +150,15 @@ async function createServer(bankingHost: string): Promise<Server> {
             // console.error("Executing check balance");
 
             // console.error("Executing bank transfer");
-            // const args = request.params
-            //   .arguments as unknown as checkBalanceArg;
+            const args = request.params
+              .arguments as unknown as checkBalanceArg;
 
-            // if (!args.account_id) {
-            //   throw new Error(
-            //     "Missing required arguments: account_ids",
-            //   );
-            // }
-            const response = await bankClient.checkBalance(
+            if (!args.account_id) {
+              throw new Error(
+                "Missing required arguments: account_ids",
+              );
+            }
+            const response = await bankClient.checkBalance(args.account_id
             );
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
@@ -185,6 +185,19 @@ async function createServer(bankingHost: string): Promise<Server> {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };
 
+          }
+          case toolTypes.CONVERT_CURRENCY: {
+            const args = request.params
+            .arguments as unknown as convertCurrencyArgs;
+
+
+            console.log("amount to convert" ,args.amount)
+  
+            const response = await bankClient.convertCurrency(args.amount)
+  
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
           }
           default:
             console.error(`Unknown tool: ${request.params.name}`);

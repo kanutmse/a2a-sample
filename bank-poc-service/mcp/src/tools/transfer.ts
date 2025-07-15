@@ -15,7 +15,7 @@ export const bankTransferTool : Tool  = {
           // }, // we mock this value to 001 (your own account)
           to_account_id: {
             type : "string",
-            description : "destination banking account number",
+            description : "destination banking account number use 009 for transfer travel account",
             required : false,
           },
           prompt_pay_number: {

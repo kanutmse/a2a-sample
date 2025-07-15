@@ -17,3 +17,8 @@ export interface getUserByNameArgs{
 export interface getAccountInfoByUserId {
   user_id : string
 }
+
+
+export interface convertCurrencyArgs {
+  amount : number
+}
