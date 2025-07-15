@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
   const mocksBankAccount : BankAccount[] = [
     {
       account_id: "001",
-      account_type: AccountType.CHECKING,
+      account_type: AccountType.SAVINGS,
       balance: 100000,
       bank_name: "Bank A",
       prompt_pay_number: "0812345678",
@@ -15,8 +15,23 @@ import { v4 as uuidv4 } from 'uuid';
       updated_at: new Date()
     },
     {
+      account_id: "009",
+      account_type: AccountType.TRAVELS,
+      balance: 0,
+      currency : [{
+        balance : 0,
+        currencyShorten : "Yen" ,
+        currentcy : "JAPANESE YEN"
+      }],
+      bank_name: "Bank A",
+      prompt_pay_number: "0812345678",
+      user_id: "001",
+      created_at: new Date(),
+      updated_at: new Date()
+    },
+    {
       account_id: "002",
-      account_type: AccountType.CHECKING,
+      account_type: AccountType.SAVINGS,
       balance: 200,
       bank_name: "Bank B",
       prompt_pay_number: "0212345678",
@@ -26,11 +41,31 @@ import { v4 as uuidv4 } from 'uuid';
     },
     {
       account_id: "003",
-      account_type: AccountType.CREDIT,
-      balance: 0,
-      bank_name: "Bank C",
-      prompt_pay_number: "1102315624",
+      account_type: AccountType.SAVINGS,
+      balance: 200,
+      bank_name: "Bank B",
+      prompt_pay_number: "0287654321",
       user_id: "003",
+      created_at: new Date(),
+      updated_at: new Date()
+    },
+    {
+      account_id: "004",
+      account_type: AccountType.SAVINGS,
+      balance: 200,
+      bank_name: "Bank B",
+      prompt_pay_number: "0112345678",
+      user_id: "004",
+      created_at: new Date(),
+      updated_at: new Date()
+    },
+    {
+      account_id: "1102315624",
+      account_type: AccountType.SAVINGS,
+      balance: 200,
+      bank_name: "Bank B",
+      prompt_pay_number: "0312345678",
+      user_id: "005",
       created_at: new Date(),
       updated_at: new Date()
     },

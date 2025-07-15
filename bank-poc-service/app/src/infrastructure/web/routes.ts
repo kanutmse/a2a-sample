@@ -26,6 +26,8 @@ export function createRoutes(
   router.put('/accounts/:id', (req, res) => bankAccountController.updateAccount(req, res));
   router.delete('/accounts/:id', (req, res) => bankAccountController.deleteAccount(req, res));
 
+  router.post('/accounts/:id/convert', (req, res) => bankAccountController.currencyConversion(req, res));
+
 
   // Balance Route
 

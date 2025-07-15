@@ -6,8 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 const mocksUser: User[] = [
   {
     user_id: "001",
-    first_name: "นายเอ",
-    last_name: "สกุล บี",
+    first_name: "สมคิด",
+    last_name: "แห่ง Arise",
     date_of_birth: new Date(),
     created_at: new Date(),
     updated_at: new Date()
@@ -15,6 +15,30 @@ const mocksUser: User[] = [
   {
     user_id: "002",
     first_name: "นายโจ้",
+    last_name: "ซ่า",
+    date_of_birth: new Date(),
+    created_at: new Date(),
+    updated_at: new Date()
+  },
+  {
+    user_id: "003",
+    first_name: "โอม",
+    last_name: "ซ่า",
+    date_of_birth: new Date(),
+    created_at: new Date(),
+    updated_at: new Date()
+  },
+  {
+    user_id: "004",
+    first_name: "โน้ต",
+    last_name: "ซ่า",
+    date_of_birth: new Date(),
+    created_at: new Date(),
+    updated_at: new Date()
+  },
+  {
+    user_id: "005",
+    first_name: "แอ๊ค",
     last_name: "ซ่า",
     date_of_birth: new Date(),
     created_at: new Date(),

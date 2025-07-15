@@ -1,4 +1,4 @@
-import { BankAccount, CreateBankAccountRequest, UpdateBankAccountRequest } from '../entities/BankAccount';
+import { AccountType, BankAccount, CreateBankAccountRequest, UpdateBankAccountRequest } from '../entities/BankAccount';
 import { BankAccountRepository } from '../repositories/BankAccountRepository';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -60,5 +60,40 @@ export class BankAccountService  {
 
     const updatedAccount = await this.bankAccountRepository.update(updateAccount);
     return updatedAccount;
+  }
+
+  async convertCurrerncy(accountId : string , amountConvert : number) : Promise<BankAccount | null> {
+
+    const conversionRate = 4.55 // current japanese conversion
+    const bankAccount = await  this.bankAccountRepository.findById(accountId);
+    if (!bankAccount) return null;
+
+    if (amountConvert > bankAccount.balance){
+      throw new Error("Insuffient fund")
+    }
+    if (bankAccount.account_type !== AccountType.TRAVELS){
+      throw new Error("This account is not travel cards")
+    }
+    if (bankAccount.currency === undefined){
+      throw new Error("This account is not travel cards")
+    }
+
+    console.log(amountConvert)
+
+    console.log(bankAccount)
+
+
+    let updateAccount: BankAccount = {
+      ...bankAccount,
+      balance : bankAccount.balance - amountConvert,
+    };
+
+    updateAccount.currency![0].balance = bankAccount.currency[0].balance + (amountConvert * conversionRate)
+
+    console.log(updateAccount)
+
+    const updatedAccount = await this.bankAccountRepository.update(updateAccount);
+    return updatedAccount;
+
   }
 }

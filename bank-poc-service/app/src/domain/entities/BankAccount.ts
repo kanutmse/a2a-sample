@@ -1,18 +1,24 @@
 export interface BankAccount {
     account_id: string;
     account_type: AccountType;
-    balance: number;
+    balance : number
+    currency? : Currency[]
     bank_name: string;
-    prompt_pay_number: string;
+    prompt_pay_number?: string;
     user_id: string;
     created_at: Date;
     updated_at: Date;
   }
+
+  export interface Currency {
+    balance : number,
+    currencyShorten :string 
+    currentcy : string
+  }
   
   export enum AccountType {
     SAVINGS = 'SAVINGS',
-    CHECKING = 'CHECKING',
-    CREDIT = 'CREDIT'
+    TRAVELS = 'TRAVELS'
   }
   
   export interface CreateBankAccountRequest {

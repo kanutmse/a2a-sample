@@ -86,30 +86,30 @@ export class TransferService {
 
     
     
-    if (transfered.to_account_id === "003") {
-      try {
-        const response = await fetch(`http://localhost:4000/reservation/001/payment-status`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            paymentStatus: "Completed"
-          })
-        });
+    // if (transfered.to_account_id === "003") {
+    //   try {
+    //     const response = await fetch(`http://localhost:4000/reservation/001/payment-status`, {
+    //       method: 'PUT',
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify({
+    //         paymentStatus: "Completed"
+    //       })
+    //     });
     
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
     
-        const data = await response.json();
-        console.log('Payment status updated successfully:', data);
-      } catch (error) {
-        console.error('Failed to update payment status:', error);
-        throw error;
-      }
+    //     const data = await response.json();
+    //     console.log('Payment status updated successfully:', data);
+    //   } catch (error) {
+    //     console.error('Failed to update payment status:', error);
+    //     throw error;
+    //   }
     
-      }
+    //   }
     
   
 
